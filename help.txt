@@ -1,0 +1,15 @@
+Aktiviren venv:
+
+& "C:\Users\$env:USERNAME\venvs\hausarbeit\Scripts\Activate.ps1"
+
+Wenn Execution policy prbobleme:
+
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+
+Pfad der venv
+C:\Users\dbaghery\venvs\hausarbeit
+
+falls du in \\iais.... feststeckst:
+
+Set-Location C:/
+
