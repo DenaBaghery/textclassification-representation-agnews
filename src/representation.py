@@ -8,7 +8,9 @@ from scipy import sparse
 from typing import Optional
 from gensim.models import Word2Vec, KeyedVectors
 from gensim.utils import simple_preprocess
+import logging
 import os
+
 
 # Representation needed
 class Representation():
@@ -89,4 +91,64 @@ class Representation():
         return X, vectorizer
 
 # word embedding
+def word2vec_representation(
+        self,
+        col_name: str = 'Description',
+        vector_size: int = 100,
+        window: int = 5,
+        min_count: int = 2,
+        workers: int = 4,
+        epochs: int = 5):
+    """
+    Erzeugt Word2Vec-Embeddings mit Gensim.
+      - Tokenisiert Texte mit simple_preprocess
+    - Trainiert Word2Vec-Modell auf den Tokens
+    - Erzeugt Dokument-Vektoren durch Mittelung der Wort-Vektoren
+     - Speichert self.w2v_model und self.w2v_X
+    - Gibt (X, model) zurück, wobei X eine numpy.ndarray ist
+
+    """
+    if col_name not in self.df.columns:
+        raise KeyError(f"Spalte '{col_name}' nicht im DataFrame vorhanden.")
+    
+    # logging für Word2Vec-Training einrichten
+    logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+
+    #Tokenisierung mit simple_preprocess
+    tokenized_texts = [simple_preprocess(str(t)) for t in self.df[col_name] if pd.notna(t) and str(t).strip() != ""]
+    if not tokenized_texts:
+        raise ValueError(f"Keine (nicht-leeren) Texte in Spalte '{col_name}' gefunden.")
+    
+    # Word2Vec-Modell trainieren
+    model = Word2Vec(
+        sentences=tokenized_texts,
+        vector_size=vector_size,
+        window=window,
+        min_count=min_count,
+        workers=workers,
+        epochs=epochs
+    )
+
+    # Dokument-Vektoren durch Mittelung der Wort-Vektoren
+    doc_vectors = []
+    for tokens in tokenized_texts:
+        # nur Wörter, die im Vokabular sind
+        valid_tokens = [token for token in tokens if token in model.wv]
+        if valid_tokens:
+            # Durchschnitt der Wort-Vektoren berechnen
+            vectors = [model.wv[token] for token in valid_tokens]
+            doc_vectors.append(np.mean(vectors, axis=0))
+        else:
+            # Nullvektor, wenn keine gültigen Tokens
+            doc_vectors.append(np.zeros(vector_size))
+
+    # Als numpy Array umwandeln
+    X = np.array(doc_vectors)
+
+    #Modell und Vektoren speichern
+    self.w2v_model = model
+    self.w2v_X = X
+
+    return X, model
+
 # sentence embedding
