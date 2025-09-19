@@ -4,11 +4,11 @@
 **Project Type**: University Term Paper
 **Dataset**: AG News
 
-## 📚 Project Overview
+## Project Overview
 
 This project investigates how different text representations influence the performance of text classification models. Using the AG News dataset, we evaluate traditional and neural classifiers across multiple vectorization strategies.
 
-## 🎯 Objectives
+## Objectives
 
 - Compare text classification models (k-Nearest Neighbors, MLP)
 - Analyze different text representations:
@@ -18,18 +18,18 @@ This project investigates how different text representations influence the perfo
   - Sentence Embeddings (Sentence-BERT)
 - Visualize classification performance and model behavior
 
-## 🧠 Methodology
+## Methodology
 
 - **Dataset**: AG News (news headlines categorized into 4 topics)
 - **Preprocessing**: Tokenization, stopword removal, vectorization
 - **Models**: kNN, Multilayer Perceptron (MLP)
 - **Evaluation**: Accuracy, F1-score, Confusion Matrix, optional PCA/t-SNE visualizations
 
-## 🗂️ Repository Structure
+## Repository Structure
 
 
 
-## 🔧 Requirements
+## Requirements
 
 - Python 3.8+
 - numpy
