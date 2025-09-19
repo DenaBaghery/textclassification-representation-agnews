@@ -56,7 +56,7 @@ try:
 
         # Ergebnisse speichern
         output_file = f'{save_path}/news_cleaned_{method}.csv'
-        result.to_csv(output_file, sep= ";")
+        result.to_csv(output_file, sep= ",")
         logging.info(f"Saved processed data to {output_file}")
 
 
