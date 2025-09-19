@@ -194,7 +194,6 @@ class Representation():
         
         # TEST
         texts = [str(t).strip() for t in self.df[col_name] if pd.notna(t) and str(t).strip() !=""]
-        texts = texts[:10]
         
         if not texts:
             raise ValueError(f"Keine (nicht-leeren) Texte in Spalte '{col_name}' gefunden.")
