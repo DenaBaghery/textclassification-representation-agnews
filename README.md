@@ -11,17 +11,35 @@ This project explores how different text representation methods affect the perfo
 
 ## Workflow Overview
 
-The project follows a clear pipeline, executed by `src/main.py`:
+The project follows a clear, sequential pipeline to process the data and evaluate the models.
 
-1.  **Data Loading**: The raw AG News dataset is loaded.
-2.  **Preprocessing**: Text is cleaned and prepared separately for each representation method.
-3.  **Representation**: The cleaned text is vectorized using four different techniques:
-    *   Bag-of-Words
-    *   TF-IDF
-    *   Word2Vec
-    *   Sentence-BERT
-4.  **Classification**: Both a KNN and an MLP model are trained and evaluated on each of the four representations.
-5.  **Results**: Performance metrics (Accuracy, F1-Score) are saved to a JSON file and can be visualized in the `results_visualization.ipynb` notebook.
+```text
+[AG News CSV]
+      |
+      v
+[1. Preprocessing] -> (Lowercase, Punctuation/Stopword Removal, Tokenization)
+      |
+      +----------------+----------------+----------------+
+      |                |                |                |
+      v                v                v                v
+[2. Representation] [BoW]         [TF-IDF]      [Word2Vec]   [Sentence-BERT]
+      |                |                |                |
+      v                v                v                v
+[3. Classification] (Train/Test Split)
+      |
+      +----------------+----------------+
+      |                |
+      v                v
+   [k-NN]            [MLP]
+      |                |
+      +----------------+
+      |
+      v
+[4. Evaluation] -> (Accuracy, F1-Score)
+      |
+      v
+[Results.json] -> [Visualization Notebook]
+```
 
 ## Getting Started
 
