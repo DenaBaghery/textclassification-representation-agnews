@@ -56,7 +56,7 @@ class TextClassification():
             self.model = MLPClassifier(**default_mlp_params)
             
             # MLP needs feature scaling, especially for sparse matrices
-            self.scaler = StandardScaler(with_mean=False)  # with_mean=False for sparse matrices
+            self.scaler = StandardScaler()
             
         else:
             raise ValueError(f"Unknown model type: {model_type}. Supported: 'knn', 'mlp'")
@@ -108,15 +108,22 @@ class TextClassification():
             X_train, is_sparse = self._handle_sparse_matrix(X_train)
             
             # Validate labels
-            y_train = np.asarray(y_train)
-            if len(y_train.shape) > 1:
-                y_train = y_train.ravel()
+            if sparse.issparse(y_train):
+                y_train = y_train.toarray()
+            y_train = np.asarray(y_train).ravel()
             
             logging.info(f"Training {self.model_type.upper()} with {X_train.shape[0]} samples")
             
             # Apply scaling for MLP
             if self.model_type == 'mlp' and self.scaler is not None:
                 logging.info("Applying feature scaling for MLP...")
+
+                # if sparce matrix not center data with mean = false, else center datasets
+                if is_sparse:
+                    self.scaler.with_mean = False
+                else:
+                    self.scaler.with_mean = True
+
                 X_train = self.scaler.fit_transform(X_train)
             
             # Train the model with warnings suppressed for cleaner output
