@@ -1,45 +1,83 @@
-# Text Classification with Different Text Representations
+# Text Classification with AG News
 
-**Author**: Dena Baghery
-**Project Type**: University Term Paper
-**Dataset**: AG News
+This project explores how different text representation methods affect the performance of classification models on the AG News dataset. It compares traditional methods like Bag-of-Words and TF-IDF against modern embedding techniques like Word2Vec and Sentence-BERT.
 
-## Project Overview
+## Features
 
-This project investigates how different text representations influence the performance of text classification models. Using the AG News dataset, we evaluate traditional and neural classifiers across multiple vectorization strategies.
+- **Representation Methods**: Bag-of-Words, TF-IDF, Word2Vec, and Sentence-BERT.
+- **Classification Models**: K-Nearest Neighbors (KNN) and a Multi-Layer Perceptron (MLP).
+- **Interactive Pipeline**: A command-line interface to run the entire workflow from preprocessing to classification.
+- **Result Visualization**: A Jupyter notebook to visualize and compare model performance.
 
-## Objectives
+## Workflow Overview
 
-- Compare text classification models (k-Nearest Neighbors, MLP)
-- Analyze different text representations:
-  - Bag-of-Words (BoW)
-  - TF-IDF
-  - Word Embeddings (Word2Vec, GloVe)
-  - Sentence Embeddings (Sentence-BERT)
-- Visualize classification performance and model behavior
+The project follows a clear pipeline, executed by `src/main.py`:
 
-## Methodology
+1.  **Data Loading**: The raw AG News dataset is loaded.
+2.  **Preprocessing**: Text is cleaned and prepared separately for each representation method.
+3.  **Representation**: The cleaned text is vectorized using four different techniques:
+    *   Bag-of-Words
+    *   TF-IDF
+    *   Word2Vec
+    *   Sentence-BERT
+4.  **Classification**: Both a KNN and an MLP model are trained and evaluated on each of the four representations.
+5.  **Results**: Performance metrics (Accuracy, F1-Score) are saved to a JSON file and can be visualized in the `results_visualization.ipynb` notebook.
 
-- **Dataset**: AG News (news headlines categorized into 4 topics)
-- **Preprocessing**: Tokenization, stopword removal, vectorization
-- **Models**: kNN, Multilayer Perceptron (MLP)
-- **Evaluation**: Accuracy, F1-score, Confusion Matrix, optional PCA/t-SNE visualizations
+## Getting Started
 
-## Repository Structure
+### 1. Setup the Environment
 
+First, clone the repository and navigate into the project directory.
 
+```bash
+git clone https://github.com/DenaBaghery/textclassification-representation-agnews.git
+cd textclassification-representation-agnews
+```
 
-## Requirements
+Next, create and activate a Python virtual environment. This keeps your project dependencies isolated.
 
-- Python 3.8+
-- numpy
-- scikit-learn
-- pandas
-- matplotlib
-- sentence-transformers
+```bash
+# Create the virtual environment
+python3 -m venv agnews-env
 
-Install dependencies:
+# Activate it (macOS/Linux)
+source agnews-env/bin/activate
+```
+
+### 2. Install Dependencies
+
+Install all the necessary packages using the `requirements.txt` file.
 
 ```bash
 pip install -r requirements.txt
-A comparative study of text classification methods based on different text representations using the AG News dataset.
+```
+
+### 3. Run the Classification Pipeline
+
+The main script `src/main.py` runs an interactive pipeline. To start it, run:
+
+```bash
+python src/main.py
+```
+
+You will see a menu with several options. The easiest way to get started is to **select option 7 to run the full pipeline**. This will:
+1.  Load the dataset.
+2.  Preprocess the text for all representation methods.
+3.  Create the vector representations.
+4.  Train and evaluate the KNN and MLP models.
+5.  Save the final results to a JSON file in the `results/` directory.
+
+### 4. Visualize the Results
+
+After running the pipeline, you can visualize the performance metrics in the included Jupyter Notebook.
+
+1.  Open the `notebooks/results_visualization.ipynb` file in VS Code.
+2.  Make sure you select the `agnews-env` kernel (your virtual environment).
+3.  Run the cells to see the performance comparison charts.
+
+## Project Structure
+
+- **/data/**: Contains the raw and processed AG News dataset.
+- **/notebooks/**: Jupyter notebooks for exploration and visualization.
+- **/results/**: Output directory for saved models, vectorizers, and performance metrics (JSON).
+- **/src/**: All Python source code for the pipeline, including preprocessing, representation, and classification logic.
