@@ -10,6 +10,7 @@ from preprocessing import Preprocessor
 from representation import Representation
 from features import get_features
 from textclassification import TextClassification
+from sklearn.decomposition import TruncatedSVD
 import json
 import sys
 
@@ -229,12 +230,27 @@ def run_classifications(selected_methods=None):
                 knn_acc, knn_f1 = knn_classifier.evaluate(X_test, y_test, verbose=False)  # Reduce output noise
                 knn_time = time.time() - knn_start
                 
-                # Train MLP
+                # Create copy of data for MLP part 
+                X_train_mlp = X_train
+                X_test_mlp = X_test
+
+                # Apply TruncatedSVD for sparse data 
+                if sparse.issparse(X_train_mlp):
+                    logging.info(f'Applying TruncatedSVD for dimensionality reduction for MLP on {method}...')
+                    # Reduce to 300 Dim
+                    svd = TruncatedSVD(n_components=300, random_state=42)
+
+                    # fit traininf and transform both
+                    X_train_mlp = svd.fit_transform(X_train)
+                    X_test_mlp = svd.transform(X_test)
+                    logging.info(f"Reduced feature dimensions to {X_train.shape[1]} to {X_train_mlp.shape[1]}")
+
+                    # Train MLP
                 logging.info(f"Training MLP for {method}...")
                 mlp_start = time.time()
                 mlp_classifier = TextClassification(model_type='mlp')  # Use optimized defaults
-                mlp_classifier.fit(X_train, y_train)
-                mlp_acc, mlp_f1 = mlp_classifier.evaluate(X_test, y_test, verbose=False)  # Reduce output noise
+                mlp_classifier.fit(X_train_mlp, y_train)
+                mlp_acc, mlp_f1 = mlp_classifier.evaluate(X_test_mlp, y_test, verbose=False)  # Reduce output noise
                 mlp_time = time.time() - mlp_start
                 
                 total_classification_time = time.time() - classification_start
@@ -247,8 +263,8 @@ def run_classifications(selected_methods=None):
                     'method': method,
                     'feature_shape': metadata['feature_shape'],
                     'feature_type': metadata['feature_type'],
-                    'train_size': len(X_train),
-                    'test_size': len(X_test),
+                    'train_size': X_train.shape[0],
+                    'test_size': X_test.shape[0],
                     'processing_time': metadata['processing_time'],
                     'classification_time': total_classification_time,
                     'knn': {
