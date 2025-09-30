@@ -3,7 +3,7 @@
 This project explores how different text representation methods affect the performance of classification models on the AG News dataset. It compares traditional methods like Bag-of-Words and TF-IDF against modern embedding techniques like Word2Vec and Sentence-BERT.
 
 ## Features
-
+- **Dataset**: AG News Dataset: https://www.kaggle.com/datasets/amananandrai/ag-news-classification-dataset
 - **Representation Methods**: Bag-of-Words, TF-IDF, Word2Vec, and Sentence-BERT.
 - **Classification Models**: K-Nearest Neighbors (KNN) and a Multi-Layer Perceptron (MLP).
 - **Interactive Pipeline**: A command-line interface to run the entire workflow from preprocessing to classification.
