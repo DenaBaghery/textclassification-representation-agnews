@@ -52,7 +52,7 @@ git clone https://github.com/DenaBaghery/textclassification-representation-agnew
 cd textclassification-representation-agnews
 ```
 
-Next, create and activate a Python virtual environment. This keeps your project dependencies isolated.
+Next, create and activate a Python virtual environment.
 
 ```bash
 # Create the virtual environment
