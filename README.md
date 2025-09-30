@@ -84,6 +84,9 @@ You will see a menu with several options. The easiest way to get started is to *
 3.  Create the vector representations.
 4.  Train and evaluate the KNN and MLP models.
 5.  Save the final results to a JSON file in the `results/` directory.
+6.  Show Results Summary
+7.  Run Full Pipeline
+8.  Exit
 
 ### 4. Visualize the Results
 
